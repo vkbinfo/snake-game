@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -29,4 +29,22 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+.Center {
+  width: 320px;
+  height: 320px;
+  margin: auto;
+}
+
+.Cell {
+  background-color: lightgray;
+  border: 2px solid red;
+  width: 16px;
+  height: 16px;
+  float:left;
+}
+
+.SankeCell {
+  background-color: black;
 }
