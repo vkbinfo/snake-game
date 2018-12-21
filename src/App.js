@@ -15,6 +15,7 @@ class App extends Component {
     this.startGame = this.startGame.bind(this);
     this.moveSnake = this.moveSnake.bind(this);
     this.pauseGame = this.pauseGame.bind(this);
+    this.createFood();
   }
 
   keyFunction(event){
@@ -39,8 +40,13 @@ class App extends Component {
   componentDidMount(){
     document.addEventListener("keydown", this.keyFunction, false);
   }
+
   componentWillUnmount(){
     document.removeEventListener("keydown", this.keyFunction, false);
+  }
+
+  createFood() {
+
   }
 
   startGame() {
@@ -63,6 +69,10 @@ class App extends Component {
     } else if (this.direction === 'down') { 
       snakeCells.splice(0, 0, [snakeHead[0] + 1, snakeHead[1]]);
     }
+
+    if ( this.hasEatenFood()) {
+
+    }
     if ( this.hasCollision(snakeCells)) {
       clearInterval(this.interval);
       alert('Your snake is not in your control');
@@ -73,6 +83,9 @@ class App extends Component {
     console.log(snakeCells)
   }
 
+  hasEatenFood() {
+
+  }
   /**
    * Checks if snake has collided with wall or itself
    * @param {*} snakeCells the snake cells which are on the board(The snake body) 
@@ -92,6 +105,7 @@ class App extends Component {
     }
     return false;
   }
+
   pauseGame() {
     this.paused = true;
   }
