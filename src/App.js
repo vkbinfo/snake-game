@@ -4,7 +4,7 @@ import './App.css';
 
 class App extends Component {
   state = {
-    snakeCells: [[15, 2], [15,1], [15,0]], 
+    snakeCells: [[15, 2], [15,1], [15,0]]
   }
   direction = 'right';
   paused = false;
@@ -20,16 +20,18 @@ class App extends Component {
   keyFunction(event){
     console.log(event.keyCode);
     // for right
-    if(event.keyCode === 39) {
-      //Do whatever when esc is pressed
-    } else if (event.keyCode === 37) {
+    if(event.keyCode === 39 && this.direction !== 'left') {
+      this.direction = 'right';
+    } else if (event.keyCode === 37 && this.direction !== 'right') {
       // left
+      this.direction = 'left';
 
-    } else if (event.keyCode === 38) {
+    } else if (event.keyCode === 38 && this.direction !== 'down') {
       // up
-      
-    } else if (event.keyCode === 40) {
+      this.direction = 'up';
+    } else if (event.keyCode === 40 && this.direction !== 'up') {
       //down
+      this.direction = 'down';
     }
     
   }
@@ -41,25 +43,55 @@ class App extends Component {
     document.removeEventListener("keydown", this.keyFunction, false);
   }
 
-  moveSnake() {
-    let snakeCells = this.state.snakeCells;
-    let snakeHead = snakeCells[0];
-    console.log('snakehead', snakeHead);
-    snakeCells.splice(0, 0, [snakeHead[0], snakeHead[1]+ 1]);
-    console.log(JSON.stringify(snakeCells, undefined, 2));
-    snakeCells.pop();
-    this.setState({snakeCells})
-    console.log(snakeCells)
-  }
-
   startGame() {
     this.interval = setInterval(() => {
       if(!this.paused) {
       this.moveSnake();
       }
-    }, 1000); 
+    }, 500); 
   }
 
+  moveSnake() {
+    let snakeCells = this.state.snakeCells;
+    let snakeHead = snakeCells[0];
+    if (this.direction === 'left') {
+      snakeCells.splice(0, 0, [snakeHead[0], snakeHead[1] - 1]);
+    } else if (this.direction === 'up') { 
+      snakeCells.splice(0, 0, [snakeHead[0] - 1, snakeHead[1]]);
+    } else if (this.direction === 'right') { 
+      snakeCells.splice(0, 0, [snakeHead[0], snakeHead[1]+ 1]);
+    } else if (this.direction === 'down') { 
+      snakeCells.splice(0, 0, [snakeHead[0] + 1, snakeHead[1]]);
+    }
+    if ( this.hasCollision(snakeCells)) {
+      clearInterval(this.interval);
+      alert('Your snake is not in your control');
+      return;
+    }
+    snakeCells.pop();
+    this.setState({snakeCells})
+    console.log(snakeCells)
+  }
+
+  /**
+   * Checks if snake has collided with wall or itself
+   * @param {*} snakeCells the snake cells which are on the board(The snake body) 
+   */
+  hasCollision(snakeCells) {
+    let snakeHead = snakeCells[0]; 
+    if ( snakeHead[0] > 15 || snakeHead[1] > 15) { // went outside of the boundary
+      return true;
+    }
+    let snakeCellsExceptHead = snakeCells.slice(1);
+    let collidedWithItSelf = snakeCellsExceptHead.find((element) => {
+      return (element[0] === snakeHead[0] && element[1] === snakeHead[1]);
+    })
+
+    if (collidedWithItSelf) {
+      return true;
+    }
+    return false;
+  }
   pauseGame() {
     this.paused = true;
   }
