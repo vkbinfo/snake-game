@@ -2,41 +2,66 @@ import React, { Component } from 'react';
 
 import './App.css';
 
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <p>
-//             Edit <code>src/App.js</code> and save to reload.
-//           </p>
-//           <a
-//             className="App-link"
-//             href="https://reactjs.org"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Learn React
-//           </a>
-//         </header>
-//       </div>
-//     );
-//   }
-// }
-
 class App extends Component {
   state = {
-    snakeCells: [[15, 2], [15,1], [15,0]],
+    snakeCells: [[15, 2], [15,1], [15,0]], 
+  }
+  direction = 'right';
+  paused = false;
+
+  constructor(props){
+    super(props);
+    this.keyFunction = this.keyFunction.bind(this);
+    this.startGame = this.startGame.bind(this);
+    this.moveSnake = this.moveSnake.bind(this);
+    this.pauseGame = this.pauseGame.bind(this);
+  }
+
+  keyFunction(event){
+    console.log(event.keyCode);
+    // for right
+    if(event.keyCode === 39) {
+      //Do whatever when esc is pressed
+    } else if (event.keyCode === 37) {
+      // left
+
+    } else if (event.keyCode === 38) {
+      // up
+      
+    } else if (event.keyCode === 40) {
+      //down
+    }
     
   }
 
-  moveSnake() {
+  componentDidMount(){
+    document.addEventListener("keydown", this.keyFunction, false);
+  }
+  componentWillUnmount(){
+    document.removeEventListener("keydown", this.keyFunction, false);
+  }
 
+  moveSnake() {
+    let snakeCells = this.state.snakeCells;
+    let snakeHead = snakeCells[0];
+    console.log('snakehead', snakeHead);
+    snakeCells.splice(0, 0, [snakeHead[0], snakeHead[1]+ 1]);
+    console.log(JSON.stringify(snakeCells, undefined, 2));
+    snakeCells.pop();
+    this.setState({snakeCells})
+    console.log(snakeCells)
   }
 
   startGame() {
-    this.moveSnake();
+    this.interval = setInterval(() => {
+      if(!this.paused) {
+      this.moveSnake();
+      }
+    }, 1000); 
+  }
+
+  pauseGame() {
+    this.paused = true;
   }
 
   render() {
@@ -44,6 +69,7 @@ class App extends Component {
       <div className="App Center" >
       <Board snakeCells= {this.state.snakeCells}></Board>
       <button onClick={this.startGame}>Start Playing With A Snake.</button>
+      <button onClick={this.pauseGame}>Pause</button>
       </div>);
   }
 }
