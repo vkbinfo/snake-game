@@ -16,6 +16,7 @@ class App extends Component {
   }
   direction = 'right';
   paused = false;
+  pauseKeyPress = true;
 
   constructor(props){
     super(props);
@@ -29,30 +30,37 @@ class App extends Component {
   }
 
   keyFunction(event){
-    console.log(event.keyCode);
-    // for right
-    if(event.keyCode === 39 && this.direction !== 'left') {
-      this.direction = 'right';
-    } else if (event.keyCode === 37 && this.direction !== 'right') {
-      // left
-      this.direction = 'left';
-
-    } else if (event.keyCode === 38 && this.direction !== 'down') {
-      // up
-      this.direction = 'up';
-    } else if (event.keyCode === 40 && this.direction !== 'up') {
-      //down
-      this.direction = 'down';
+    if(this.pauseKeyPress) {
+      // this.pauseKeyPress = false;
+      // setTimeout(() => {
+      //   this.pauseKeyPress = true;
+      // }, 200);
+        // for right
+      if(event.keyCode === 39 && this.direction !== 'left' && this.direction !== 'right') {
+        this.direction = 'right';
+        this.moveSnake();
+      } else if (event.keyCode === 37 && this.direction !== 'right' && this.direction !== 'left') { 
+        // left
+        this.direction = 'left';
+        this.moveSnake();
+      } else if (event.keyCode === 38 && this.direction !== 'down' && this.direction !== 'up') {
+        // up
+        this.direction = 'up';
+        this.moveSnake();
+      } else if (event.keyCode === 40 && this.direction !== 'up' && this.direction !== 'down') {
+        //down
+        this.direction = 'down';
+        this.moveSnake();
+      }
     }
-    this.moveSnake();
   }
 
   componentDidMount(){
-    document.addEventListener("keydown", this.keyFunction, false);
+    document.addEventListener("keyup", this.keyFunction, false);
   }
 
   componentWillUnmount(){
-    document.removeEventListener("keydown", this.keyFunction, false);
+    document.removeEventListener("keyup", this.keyFunction, false);
   }
 
   startGame() {
@@ -170,7 +178,7 @@ class Board extends Component{
           }
           
           if (isFoodCell) {
-            rows.push(<div className='Food-cell'> <span className='Food'>&#127828;</span> </div>)
+            rows.push(<div className='Food-cell'> <span className="Food">&#127828;</span> </div>)
           } else {
             rows.push( <div className = { 'Cell ' + (isSnakeCell ? 'SankeCell' : '') } > </div>);
           }
