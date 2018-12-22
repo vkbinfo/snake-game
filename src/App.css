@@ -7,12 +7,23 @@
 
 .Cell {
   background-color: lightgray;
-  border: 2px solid red;
-  width: 16px;
-  height: 16px;
+  border: 1px solid red;
+  width: 18px;
+  height: 18px;
   float:left;
 }
 
+.Food-cell {
+  background-color: white;
+  border: 1px solid red;
+  width: 18px;
+  height: 18px;
+  float: left;
+}
+
+.Food {
+  
+}
 .SankeCell {
   background-color: black;
 }
