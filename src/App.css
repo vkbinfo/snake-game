@@ -1,12 +1,15 @@
-
+.Container {
+  position: relative;
+}
 .Center {
   width: 320px;
   height: 320px;
   margin: auto;
+  margin-top: 100px;
+  background-color: #c2bd80;
 }
 
 .Cell {
-  background-color: lightgray;
   width: 20px;
   height: 20px;
   float:left;
@@ -24,9 +27,16 @@
   border-right:60px solid white;
 }
 
-.Food {
-  
-}
-.SankeCell {
+.SnakeCell {
   background-color: black;
+  border-radius: 8px;
+}
+
+.Collapse {
+  position: absolute;
+  top: 163px;
+  left: 47%;
+}
+.Overlay-option {
+  
 }

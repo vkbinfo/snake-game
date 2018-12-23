@@ -12,11 +12,13 @@ for (let i = 0; i < 16; i++) {
 class App extends Component {
   state = {
     snakeCells: [[15, 2], [15,1], [15,0]],
-    foodPosition: [-1,-1]
+    score: 0,
+    destroyed: false
   }
   direction = 'right';
   paused = false;
   pauseKeyPress = true;
+  foodPosition = [-1,-1];
 
   constructor(props){
     super(props);
@@ -72,7 +74,6 @@ class App extends Component {
   }
 
   moveSnake() {
-    console.log('direction', this.direction);
     let snakeCells = this.state.snakeCells;
     let snakeHead = snakeCells[0];
     if (this.direction === 'left') {
@@ -87,11 +88,14 @@ class App extends Component {
 
     if ( this.hasCollision(snakeCells)) {
       clearInterval(this.interval);
-      alert('Your snake is not in your control');
+      let destroyed = true;
+      this.setState({destroyed});
       return;
     }
     if (this.hasEatenFood()) {
         this.createFood();
+        let score = this.state.score + 10;
+        this.setState({score});
     } else {
       snakeCells.pop();
     } 
@@ -112,12 +116,13 @@ class App extends Component {
       return true;
     });
     let foodPosition = gridWithoutSnakeCells[Math.floor(Math.random()*gridWithoutSnakeCells.length)];
-    this.state.foodPosition = foodPosition;
+    this.foodPosition = foodPosition;
+    this.render();
   }
 
   hasEatenFood() {
     let snakeHead = this.state.snakeCells[0];
-    let foodPosition = this.state.foodPosition;
+    let foodPosition = this.foodPosition;
     if (snakeHead[0] === foodPosition[0] && snakeHead[1] === foodPosition[1] ) {
       return true;
     }
@@ -149,11 +154,24 @@ class App extends Component {
   }
 
   render() {
+    let collapsedOptions;
+    if (this.state.destroyed) {
+      collapsedOptions = (<div className="Collapse">
+                          <div className="Overlay-option">
+                            <button>Play Again</button>
+                          </div>
+                        </div>)
+    } else {
+      collapsedOptions = null;
+    }
     return (
-      <div className="App Center" >
-      <Board snakeCells= {this.state.snakeCells} foodPosition={this.state.foodPosition}></Board>
-      <button onClick={this.startGame}>Start Playing With A Snake.</button>
-      <button onClick={this.pauseGame}>Pause</button>
+      <div className='Container'>
+        <div className="App Center" >
+        <Board snakeCells= {this.state.snakeCells} foodPosition={this.foodPosition}></Board>
+        <button onClick={this.startGame}>Start Playing With A Snake.</button>
+        <button onClick={this.pauseGame}>Pause</button> <p>Score:{this.state.score}</p>
+        </div>
+        {collapsedOptions}
       </div>);
   }
 }
@@ -178,7 +196,7 @@ class Board extends Component{
           if (isFoodCell) {
             rows.push(<div className='Food-cell'> <span className="Food">&#127828;</span> </div>)
           } else {
-            rows.push( <div className = { 'Cell ' + (isSnakeCell ? 'SankeCell' : '') } > </div>);
+            rows.push( <div className = { 'Cell ' + (isSnakeCell ? 'SnakeCell' : '') } > </div>);
           }
           
         })
