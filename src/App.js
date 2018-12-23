@@ -72,6 +72,7 @@ class App extends Component {
   }
 
   moveSnake() {
+    console.log('direction', this.direction);
     let snakeCells = this.state.snakeCells;
     let snakeHead = snakeCells[0];
     if (this.direction === 'left') {
@@ -170,11 +171,8 @@ class Board extends Component{
             return (element[0] === i && element[1] === j)
           })
           let isFoodCell = false;
-          console.log(element[0], element[1]);
           if(!isSnakeCell){
-            console.log("I am getting inside")
             isFoodCell = (foodPosition[0] === i && foodPosition[1] === j);
-            console.log('isFoodCell', isFoodCell);
           }
           
           if (isFoodCell) {
