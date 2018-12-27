@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 
 import './App.css';
 
+// importing components
+import Board from './components/board';
+
+let bestScore = 0;
+
 const GRID = [];
 for (let i = 0; i < 16; i++) {
   for (let j = 0; j < 16; j++) {
@@ -89,6 +94,9 @@ class App extends Component {
     if ( this.hasCollision(snakeCells)) {
       clearInterval(this.interval);
       let destroyed = true;
+      if (bestScore < this.state.score) {
+        bestScore = this.state.score;
+      }
       this.setState({destroyed});
       return;
     }
@@ -158,7 +166,20 @@ class App extends Component {
     if (this.state.destroyed) {
       collapsedOptions = (<div className="Collapse">
                           <div className="Overlay-option">
+                            <div className="Result-score">
+                            <div className="Center">
+                            <label>This game Score:</label><br></br>
+                            <span>{this.state.score}</span><br></br>
+                            </div>
+                            <div className="Center">
+                            <label>Your best Score:</label><br></br>
+                            <span>{bestScore}</span>
+                            </div>
+                            </div>
+                            <div className='Game-option'>
                             <button>Play Again</button>
+                            <button>It's enough!Leave me alone.</button>
+                            </div>
                           </div>
                         </div>)
     } else {
@@ -166,42 +187,17 @@ class App extends Component {
     }
     return (
       <div className='Container'>
-        <div className="App Center" >
+        <div className="App Background" >
         <Board snakeCells= {this.state.snakeCells} foodPosition={this.foodPosition}></Board>
+         <div className="Result-score">
         <button onClick={this.startGame}>Start Playing With A Snake.</button>
         <button onClick={this.pauseGame}>Pause</button> <p>Score:{this.state.score}</p>
+        </div>
         </div>
         {collapsedOptions}
       </div>);
   }
 }
 
-class Board extends Component{
-  render() {
-      let rows = [];
-      let snakeCells = this.props.snakeCells;
-      let foodPosition = this.props.foodPosition;
-      GRID.forEach((element) => {
-          let i = element[0];
-          let j = element[1];
-          // checking if the cell belongs from snake body
-          let isSnakeCell = snakeCells.find((element) => {
-            return (element[0] === i && element[1] === j)
-          })
-          let isFoodCell = false;
-          if(!isSnakeCell){
-            isFoodCell = (foodPosition[0] === i && foodPosition[1] === j);
-          }
-          
-          if (isFoodCell) {
-            rows.push(<div className='Food-cell'> <span className="Food">&#127828;</span> </div>)
-          } else {
-            rows.push( <div className = { 'Cell ' + (isSnakeCell ? 'SnakeCell' : '') } > </div>);
-          }
-          
-        })
-        return ( <div > {rows} </div>)
-        }
-    }
 
 export default App;

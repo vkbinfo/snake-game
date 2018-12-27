@@ -1,7 +1,7 @@
 .Container {
   position: relative;
 }
-.Center {
+.Background {
   width: 320px;
   height: 320px;
   margin: auto;
@@ -34,9 +34,29 @@
 
 .Collapse {
   position: absolute;
-  top: 163px;
-  left: 47%;
+  top: 55px;
+  left: 40%;
 }
 .Overlay-option {
-  
+  height: 213px;
+  width: 290px;
+  background-color: #FA8072;
+  border-radius: 8px;
+}
+
+.Result-score {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.Game-option {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 40px;
+}
+
+.Center {
+ text-align: center;
 }
