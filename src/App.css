@@ -60,3 +60,13 @@
 .Center {
  text-align: center;
 }
+
+.Current-score { 
+  background: green;
+  padding: 15px;
+}
+
+.Best-score { 
+  background: red;
+  padding: 15px;
+}

@@ -21,44 +21,38 @@ class App extends Component {
     destroyed: false
   }
   direction = 'right';
+  pauseOption = 'Pause'
   paused = false;
-  pauseKeyPress = true;
   foodPosition = [-1,-1];
+  isGameOn = false;
 
   constructor(props){
     super(props);
     this.keyFunction = this.keyFunction.bind(this);
     this.startGame = this.startGame.bind(this);
     this.moveSnake = this.moveSnake.bind(this);
-    this.pauseGame = this.pauseGame.bind(this);
+    this.togglePause = this.togglePause.bind(this);
     this.createFood = this.createFood.bind(this);
     this.hasEatenFood = this.hasEatenFood.bind(this);
-    this.createFood();
+    this.playAgain = this.playAgain.bind(this);
   }
 
   keyFunction(event){
-    if(this.pauseKeyPress) {
-      // this.pauseKeyPress = false;
-      // setTimeout(() => {
-      //   this.pauseKeyPress = true;
-      // }, 200);
-        // for right
-      if(event.keyCode === 39 && this.direction !== 'left' && this.direction !== 'right') {
-        this.direction = 'right';
-        this.moveSnake();
-      } else if (event.keyCode === 37 && this.direction !== 'right' && this.direction !== 'left') { 
-        // left
-        this.direction = 'left';
-        this.moveSnake();
-      } else if (event.keyCode === 38 && this.direction !== 'down' && this.direction !== 'up') {
-        // up
-        this.direction = 'up';
-        this.moveSnake();
-      } else if (event.keyCode === 40 && this.direction !== 'up' && this.direction !== 'down') {
-        //down
-        this.direction = 'down';
-        this.moveSnake();
-      }
+    if(event.keyCode === 39 && this.direction !== 'left' && this.direction !== 'right') {
+      this.direction = 'right';
+      this.moveSnake();
+    } else if (event.keyCode === 37 && this.direction !== 'right' && this.direction !== 'left') { 
+      // left
+      this.direction = 'left';
+      this.moveSnake();
+    } else if (event.keyCode === 38 && this.direction !== 'down' && this.direction !== 'up') {
+      // up
+      this.direction = 'up';
+      this.moveSnake();
+    } else if (event.keyCode === 40 && this.direction !== 'up' && this.direction !== 'down') {
+      //down
+      this.direction = 'down';
+      this.moveSnake();
     }
   }
 
@@ -71,11 +65,15 @@ class App extends Component {
   }
 
   startGame() {
-    this.interval = setInterval(() => {
-      if(!this.paused) {
-      this.moveSnake();
-      }
-    }, 500); 
+    if (!this.isGameOn) {
+      this.createFood();  
+      this.interval = setInterval(() => {
+        if(!this.paused) {
+        this.moveSnake();
+        }
+      }, 500);
+      this.isGameOn = true;
+    }
   }
 
   moveSnake() {
@@ -157,8 +155,30 @@ class App extends Component {
     return false;
   }
 
-  pauseGame() {
-    this.paused = true;
+  playAgain() {
+    let state = {
+      snakeCells: [[15, 2], [15,1], [15,0]],
+      score: 0,
+      destroyed: false
+    }
+    this.direction = 'right';
+    this.pauseOption = 'Pause'
+    this.paused = false;
+    this.foodPosition = [-1,-1];
+    this.isGameOn = false;
+    this.setState({...state}, () => {
+      this.startGame();
+    })
+  }
+
+  togglePause() {
+    this.paused = !this.paused;
+    if(this.paused) {
+      this.pauseOption = 'Play'
+    } else {
+      this.pauseOption = 'Pause' 
+    }
+    this.forceUpdate();
   }
 
   render() {
@@ -167,18 +187,18 @@ class App extends Component {
       collapsedOptions = (<div className="Collapse">
                           <div className="Overlay-option">
                             <div className="Result-score">
-                            <div className="Center">
-                            <label>This game Score:</label><br></br>
-                            <span>{this.state.score}</span><br></br>
-                            </div>
-                            <div className="Center">
-                            <label>Your best Score:</label><br></br>
-                            <span>{bestScore}</span>
-                            </div>
+                              <div className="Center Current-score">
+                                <label>This game Score:</label><br></br>
+                                <span>{this.state.score}</span><br></br>
+                              </div>
+                              <div className="Center Best-score">
+                                <label>Your best Score:</label><br></br>
+                                <span>{bestScore}</span>
+                              </div>
                             </div>
                             <div className='Game-option'>
-                            <button>Play Again</button>
-                            <button>It's enough!Leave me alone.</button>
+                              <button onClick={this.playAgain}>Play Again</button>
+                              <button>It's enough! Leave me alone.</button>
                             </div>
                           </div>
                         </div>)
@@ -190,8 +210,8 @@ class App extends Component {
         <div className="App Background" >
         <Board snakeCells= {this.state.snakeCells} foodPosition={this.foodPosition}></Board>
          <div className="Result-score">
-        <button onClick={this.startGame}>Start Playing With A Snake.</button>
-        <button onClick={this.pauseGame}>Pause</button> <p>Score:{this.state.score}</p>
+        <button onClick={this.startGame}>Click to start playing.</button>
+        <button onClick={this.togglePause}>{this.pauseOption}</button> <p>Score:{this.state.score}</p>
         </div>
         </div>
         {collapsedOptions}
