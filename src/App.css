@@ -1,6 +1,16 @@
 .Container {
   position: relative;
 }
+
+.LogIn {
+  position: absolute;
+  top: -73px;
+  right: 140px;
+  min-height: 40px;
+  min-width: 60px;
+  border-radius: 12px;
+  background: #7CFC00;
+}
 .Background {
   width: 320px;
   height: 320px;
@@ -37,6 +47,7 @@
   top: 55px;
   left: 40%;
 }
+
 .Overlay-option {
   height: 213px;
   width: 290px;

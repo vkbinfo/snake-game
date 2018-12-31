@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import '../App.css';
+import '../../App.css';
 
 // importing components
-import Board from './board';
+import Board from '../board/board';
 
 let bestScore = 0;
 
