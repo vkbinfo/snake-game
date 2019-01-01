@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import '../../App.css';
+import axios from 'axios';
 
 // importing components
 import Board from '../board/board';
@@ -25,9 +26,10 @@ class Game extends Component {
   paused = false;
   foodPosition = [-1,-1];
   isGameOn = false;
-
+  cookies = Object;
   constructor(props){
     super(props);
+    this.cookies = this.props.cookies;
     this.keyFunction = this.keyFunction.bind(this);
     this.startGame = this.startGame.bind(this);
     this.moveSnake = this.moveSnake.bind(this);
@@ -95,6 +97,19 @@ class Game extends Component {
       if (bestScore < this.state.score) {
         bestScore = this.state.score;
       }
+      const x_auth = this.cookies.get('x-auth');
+      const headers = {
+          "x-auth": x_auth,
+          'Content-Type': 'application/json',
+        }
+      const score = this.state.score;
+      axios.post('https://evening-oasis-31820.herokuapp.com/user/game/score', {score},{ headers})
+          .then((response) => {
+            console.log('Game score has been sent to backend.')
+          })
+          .catch((error) => {
+            console.error('Some error while sending data for game score', error);
+          });
       this.setState({destroyed});
       return;
     }
