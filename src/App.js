@@ -20,23 +20,46 @@ class App extends Component {
     renderLoginForm: false,
     username: '',
   }
+  cookies = Object;
   constructor(props) {
     super(props)
+    const {cookies} = this.props;
+    this.cookies = cookies;
     this.renderLoginForm = this.renderLoginForm.bind(this);
     this.closeLoginForm = this.closeLoginForm.bind(this);
     this.actionAfterLogIn = this.actionAfterLogIn.bind(this);
+    this.checkLogIn();
   }
 
+  checkLogIn() {
+    const x_auth = this.cookies.get('x-auth');
+    const headers = {
+      "x-auth": x_auth,
+    }
+  axios.get('https://evening-oasis-31820.herokuapp.com/user/me', {headers})
+      .then((response) => {
+        const username = response.data.username;
+        this.setState({isLoggedIn: true, renderLoginForm: false, username});
+      })
+      .catch((error) => {
+        
+      });
+    
+  }
   renderLoginForm() {
     if(this.state.isLoggedIn){
-      axios.post('https://evening-oasis-31820.herokuapp.com/user/delete/token', {
-            
-          })
+      const x_auth = this.cookies.get('x-auth');
+      const headers = {
+          "x-auth": x_auth,
+        }
+      axios.delete('https://evening-oasis-31820.herokuapp.com/user/delete/token', {headers})
           .then((response) => {
-            
+            alert('Successfully logged out');
+            this.cookies.remove('x-auth')
+            this.setState({isLoggedIn: false, renderLoginForm: false, username: ''})
           })
           .catch((error) => {
-            alert('Something went wrong while logging out.')
+            alert('Something went wrong while logging out. Error: ' + error)
             console.error('login error', error);
           });
     } else {
@@ -50,8 +73,7 @@ class App extends Component {
   }
 
   actionAfterLogIn(username, x_auth){
-    const {cookies} = this.props
-    cookies.set('x-auth', x_auth);
+    this.cookies.set('x-auth', x_auth);
     this.setState({isLoggedIn: true, renderLoginForm: false, username});
   }
 
@@ -70,7 +92,7 @@ class App extends Component {
       <div className='Container'>
         {logInFormComponent}
         <button className='LogIn' onClick={this.renderLoginForm}>{button}</button>
-        <Game></Game>
+        <Game cookies={this.cookies}></Game>
       </div>);
   }
 }
