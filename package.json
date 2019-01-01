@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "jsonwebtoken": "^8.4.0",
     "react": "^16.6.3",
+    "react-cookie": "^3.0.8",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1"
   },

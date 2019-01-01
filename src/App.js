@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
 import './App.css';
 import axios from 'axios';
@@ -10,6 +12,9 @@ import LogIn from './components/login/login';
 
 
 class App extends Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
   state = {
     isLoggedIn: false,
     renderLoginForm: false,
@@ -44,8 +49,10 @@ class App extends Component {
     this.setState({renderLoginForm: false})
   }
 
-  actionAfterLogIn(username){
-    this.setState({isLoggedIn: true, renderLoginForm: false, username})
+  actionAfterLogIn(username, x_auth){
+    const {cookies} = this.props
+    cookies.set('x-auth', x_auth);
+    this.setState({isLoggedIn: true, renderLoginForm: false, username});
   }
 
   render() {
@@ -69,4 +76,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default withCookies(App);

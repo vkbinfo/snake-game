@@ -31,7 +31,7 @@ class LogIn extends Component{
           .then((response) => {
             const tokenData = jwt.decode(response.data['x-auth']);
             this.setState({spinner: false});
-            this.props.actionAfterLogIn(tokenData.username)
+            this.props.actionAfterLogIn(tokenData.username, response.data['x-auth'])
           })
           .catch((error) => {
             alert('Either username or password is wrong.')
