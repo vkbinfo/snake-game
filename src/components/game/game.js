@@ -5,6 +5,7 @@ import axios from 'axios';
 
 // importing components
 import Board from '../board/board';
+import LeaderBoard from '../leaderBoard/leaderBoard';
 
 let bestScore = 0;
 
@@ -228,6 +229,7 @@ class Game extends Component {
         <button onClick={this.startGame}>Click to start playing.</button>
         <button onClick={this.togglePause}>{this.pauseOption}</button> <p>Score:{this.state.score}</p>
         </div>
+        <LeaderBoard cookies={this.cookies}></LeaderBoard>
         </div>
         {collapsedOptions}
         </div>

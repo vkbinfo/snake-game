@@ -7,6 +7,7 @@ import axios from 'axios';
 
 // importing components
 import Game from './components/game/game';
+import LeaderBoard from './components/leaderBoard/leaderBoard';
 import LogIn from './components/login/login';
 
 

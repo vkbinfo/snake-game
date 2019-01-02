@@ -47,9 +47,10 @@ class LogIn extends Component{
             password: this.refs.newPassword.value
           })
           .then((response) => {
+            console.log(response);
             const tokenData = jwt.decode(response.data['x-auth']);
             this.setState({spinner: false});
-            this.props.actionAfterLogIn(tokenData.username)
+            this.props.actionAfterLogIn(tokenData.username, response.data['x-auth'])
           })
           .catch((error) => {
             alert('Either your username is not unique or your password length is less than 3.')
