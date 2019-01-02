@@ -93,7 +93,7 @@ class App extends Component {
       <div className='Container'>
         {logInFormComponent}
         <button className='LogIn' onClick={this.renderLoginForm}>{button}</button>
-        <Game cookies={this.cookies}></Game>
+        <Game cookies={this.cookies} isLoggedIn = {this.state.isLoggedIn}></Game>
       </div>);
   }
 }

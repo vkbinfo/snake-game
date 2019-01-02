@@ -208,13 +208,12 @@ class Game extends Component {
                                 <span>{this.state.score}</span><br></br>
                               </div>
                               <div className="Center Best-score">
-                                <label>Your best Score:</label><br></br>
+                                <label>Your best Score Today:</label><br></br>
                                 <span>{bestScore}</span>
                               </div>
                             </div>
                             <div className='Game-option'>
                               <button onClick={this.playAgain}>Play Again</button>
-                              <button>It's enough! Leave me alone.</button>
                             </div>
                           </div>
                         </div>)
@@ -229,7 +228,7 @@ class Game extends Component {
         <button onClick={this.startGame}>Click to start playing.</button>
         <button onClick={this.togglePause}>{this.pauseOption}</button> <p>Score:{this.state.score}</p>
         </div>
-        <LeaderBoard cookies={this.cookies}></LeaderBoard>
+        <LeaderBoard cookies={this.cookies} isLoggedIn = {this.props.isLoggedIn}></LeaderBoard>
         </div>
         {collapsedOptions}
         </div>

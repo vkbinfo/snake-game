@@ -2,6 +2,9 @@
     width: 320px;
     height: 320px;
     background-color: green;
+    overflow: scroll;
+    margin-bottom: 50px;
+    margin-top: 50px;
  }
 
  .LeaderBoardOption-container {
@@ -26,7 +29,12 @@
     margin: 10px;
     height: 20px;
  }
+
  .ScoreRow-element{
     text-align: center;
     margin-left: 12px;
+ }
+
+ .Active {
+    background-color:#FF6347;
  }
