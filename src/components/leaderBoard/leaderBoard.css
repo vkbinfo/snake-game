@@ -1,9 +1,9 @@
 .Leader-board { 
     width: 320px;
-    height: 320px;
+    height: 230px;
     background-color: green;
     overflow: scroll;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
     margin-top: 50px;
  }
 

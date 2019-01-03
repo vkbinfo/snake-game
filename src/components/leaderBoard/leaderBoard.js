@@ -60,11 +60,8 @@ class LeaderBoard extends Component{
         let scoreRows = [];
         scoreRows.push(<div className='ScoreRow' key={-1}><div className='ScoreRow-element'>No.</div><div className='ScoreRow-element'> username </div><div className='ScoreRow-element'>score</div><br></br></div>)
         let scoreArray = this.state.top10;
-        if (this.state.leaderBoard === 'user') {
+        if (this.state.leaderBoard === 'user' && this.props.isLoggedIn) {
             scoreArray = this.state.userTop10;
-            if(!this.props.isLoggedIn) {
-                scoreRows.push(<div><p>Need to be logged in to view your top 10.</p></div>)
-            }
         }
         scoreArray.forEach((element, index) => {
             scoreRows.push(<div className='ScoreRow' key={index}><div className='ScoreRow-element'>{index+1}</div><div className='ScoreRow-element'> {element[0]} </div><div className='ScoreRow-element'>{element[1]}</div><br></br></div>)
