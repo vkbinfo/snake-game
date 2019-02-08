@@ -9,6 +9,8 @@ import axios from 'axios';
 import Game from './components/game/game';
 import LogIn from './components/login/login';
 
+import Subscription from './components/Subscription';
+
 
 
 class App extends Component {
@@ -28,7 +30,13 @@ class App extends Component {
     this.renderLoginForm = this.renderLoginForm.bind(this);
     this.closeLoginForm = this.closeLoginForm.bind(this);
     this.actionAfterLogIn = this.actionAfterLogIn.bind(this);
+    this.updateGameState = this.updateGameState.bind(this)
     this.checkLogIn();
+    this.subscription = new Subscription(this.updateGameState) 
+  }
+
+  componentDidMount(){
+    this.subscription.sendData({'foodpostion' : 'test'});
   }
 
   checkLogIn() {
@@ -66,6 +74,10 @@ class App extends Component {
       this.setState({renderLoginForm: true});
     }
     
+  }
+
+  updateGameState  (data)  {
+    console.log(data)
   }
 
   closeLoginForm(){
