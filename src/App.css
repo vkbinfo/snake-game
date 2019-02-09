@@ -9,7 +9,7 @@
   min-height: 40px;
   min-width: 60px;
   border-radius: 12px;
-  background: #7CFC00;
+  background: #7cfc00;
 }
 
 .Background {
@@ -24,7 +24,7 @@
 .Cell {
   width: 20px;
   height: 20px;
-  float:left;
+  float: left;
 }
 
 .Food-cell {
@@ -34,9 +34,9 @@
 }
 
 .Snake-face {
-  border-bottom:120px solid red; 
-  border-left:60px solid white; 
-  border-right:60px solid white;
+  border-bottom: 120px solid red;
+  border-left: 60px solid white;
+  border-right: 60px solid white;
 }
 
 .SnakeCell {
@@ -53,7 +53,7 @@
 .Overlay-option {
   height: 213px;
   width: 290px;
-  background-color: #FA8072;
+  background-color: #fa8072;
   border-radius: 8px;
 }
 
@@ -71,15 +71,15 @@
 }
 
 .Center {
- text-align: center;
+  text-align: center;
 }
 
-.Current-score { 
+.Current-score {
   background: green;
   padding: 15px;
 }
 
-.Best-score { 
+.Best-score {
   background: red;
   padding: 15px;
 }
